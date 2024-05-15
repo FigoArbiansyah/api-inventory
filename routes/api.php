@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\isLogin;
 // CONTROLLER
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ItemController;
 
 Route::group(['prefix' => 'v1'], function () {
     Route::group(['prefix' => 'auth'], function () {
@@ -15,4 +16,6 @@ Route::group(['prefix' => 'v1'], function () {
         Route::post('refresh', [AuthController::class, 'refresh']);
         Route::get('me', [AuthController::class, 'me'])->middleware(isLogin::class);
     });
+
+    Route::get('item', [ItemController::class, 'index']);
 });
