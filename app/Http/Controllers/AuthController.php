@@ -34,15 +34,16 @@ class AuthController extends Controller
      */
     public function me()
     {
-        $me = DB::table('users')
-            ->join('roles', 'users.role_id', '=', 'roles.id')
-            ->where('users.id', auth()->user()->id)
-            ->select(
-                'users.id', 'users.name',
-                'users.email', 'roles.id as role_id',
-                'roles.name as role_name',
-            )
-            ->first();
+        // $me = DB::table('users')
+        //     ->join('roles', 'users.role_id', '=', 'roles.id')
+        //     ->where('users.id', auth()->user()->id)
+        //     ->select(
+        //         'users.id', 'users.name',
+        //         'users.email', 'roles.id as role_id',
+        //         'roles.name as role_name',
+        //     )
+        //     ->first();
+        $me = User::with('role')->find(auth()->user()->id);
         if (!$me) {
             return ResponseHelper::error('Data tidak ditemukan', 400);
         }
