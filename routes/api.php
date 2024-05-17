@@ -8,6 +8,7 @@ use App\Http\Middleware\isLogin;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\LocationController;
 
 Route::group(['prefix' => 'v1'], function () {
     Route::group(['prefix' => 'auth'], function () {
@@ -21,6 +22,16 @@ Route::group(['prefix' => 'v1'], function () {
     // CATEGORIES
     Route::controller(CategoryController::class)
     ->prefix('category')->name('category.')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/{id}', 'show')->name('show');
+        Route::post('/', 'store')->name('store');
+        Route::post('/{id}', 'update')->name('update');
+        Route::delete('/{id}', 'delete')->name('delete');
+    });
+
+    // LOCATIONS
+    Route::controller(LocationController::class)
+    ->prefix('location')->name('location.')->group(function () {
         Route::get('/', 'index')->name('index');
         Route::get('/{id}', 'show')->name('show');
         Route::post('/', 'store')->name('store');
