@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Helpers\ResponseHelper;
 use App\Helpers\ValidationHelper;
 use App\Models\Category;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -18,8 +19,15 @@ class CategoryController extends Controller
     }
 
     public function show($id) {
-        $category = Category::with('items')->find($id);
-        return ResponseHelper::success($category);
+        try {
+            $category = Category::with('items')->find($id);
+            if (!$category) {
+                throw new Exception("Data not found", 404);
+            }
+            return ResponseHelper::success($category);
+        } catch (Exception $e) {
+            return ResponseHelper::error($e->getMessage(), $e->getCode());
+        }
     }
 
     public function store(Request $request) {
