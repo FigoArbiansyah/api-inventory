@@ -66,7 +66,18 @@ Route::group(['prefix' => 'v1'], function () {
             ->middleware(isAdmin::class);
     });
 
-
-    Route::get('item', [ItemController::class, 'index'])
-        ->middleware(isAdmin::class);
+    // ITEMS
+    Route::controller(ItemController::class)
+    ->prefix('item')->name('item.')->group(function () {
+        Route::get('/', 'index')->name('index')
+            ->middleware(isAdmin::class);
+        Route::get('/{id}', 'show')->name('show')
+            ->middleware(isAdmin::class);
+        Route::post('/', 'store')->name('store')
+            ->middleware(isAdmin::class);
+        Route::post('/{id}', 'update')->name('update')
+            ->middleware(isAdmin::class);
+        Route::delete('/{id}', 'delete')->name('delete')
+            ->middleware(isAdmin::class);
+    });
 });
