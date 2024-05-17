@@ -1,9 +1,11 @@
 <?php
 
+use App\Http\Controllers\SupplierController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 // MIDDLEWARE
 use App\Http\Middleware\isLogin;
+use App\Http\Middleware\isAdmin;
 // CONTROLLER
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
@@ -22,23 +24,49 @@ Route::group(['prefix' => 'v1'], function () {
     // CATEGORIES
     Route::controller(CategoryController::class)
     ->prefix('category')->name('category.')->group(function () {
-        Route::get('/', 'index')->name('index');
-        Route::get('/{id}', 'show')->name('show');
-        Route::post('/', 'store')->name('store');
-        Route::post('/{id}', 'update')->name('update');
-        Route::delete('/{id}', 'delete')->name('delete');
+        Route::get('/', 'index')->name('index')
+            ->middleware(isAdmin::class);
+        Route::get('/{id}', 'show')->name('show')
+            ->middleware(isAdmin::class);
+        Route::post('/', 'store')->name('store')
+            ->middleware(isAdmin::class);
+        Route::post('/{id}', 'update')->name('update')
+            ->middleware(isAdmin::class);
+        Route::delete('/{id}', 'delete')->name('delete')
+            ->middleware(isAdmin::class);
     });
 
     // LOCATIONS
     Route::controller(LocationController::class)
     ->prefix('location')->name('location.')->group(function () {
-        Route::get('/', 'index')->name('index');
-        Route::get('/{id}', 'show')->name('show');
-        Route::post('/', 'store')->name('store');
-        Route::post('/{id}', 'update')->name('update');
-        Route::delete('/{id}', 'delete')->name('delete');
+        Route::get('/', 'index')->name('index')
+            ->middleware(isAdmin::class);
+        Route::get('/{id}', 'show')->name('show')
+            ->middleware(isAdmin::class);
+        Route::post('/', 'store')->name('store')
+            ->middleware(isAdmin::class);
+        Route::post('/{id}', 'update')->name('update')
+            ->middleware(isAdmin::class);
+        Route::delete('/{id}', 'delete')->name('delete')
+            ->middleware(isAdmin::class);
+    });
+
+    // SUPPLIERS
+    Route::controller(SupplierController::class)
+    ->prefix('supplier')->name('supplier.')->group(function () {
+        Route::get('/', 'index')->name('index')
+            ->middleware(isAdmin::class);
+        Route::get('/{id}', 'show')->name('show')
+            ->middleware(isAdmin::class);
+        Route::post('/', 'store')->name('store')
+            ->middleware(isAdmin::class);
+        Route::post('/{id}', 'update')->name('update')
+            ->middleware(isAdmin::class);
+        Route::delete('/{id}', 'delete')->name('delete')
+            ->middleware(isAdmin::class);
     });
 
 
-    Route::get('item', [ItemController::class, 'index']);
+    Route::get('item', [ItemController::class, 'index'])
+        ->middleware(isAdmin::class);
 });
